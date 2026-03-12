@@ -20,3 +20,14 @@ Diseñar e implementar un prototipo de sistema embebido que controle una bomba d
 4. Implementar y documentar  los protocolos de comunicación.
    
 5. Manejar condiciones de error críticas garantizando respuesta segura ante fallas del sistema.
+
+## Roles
+
+### Technical Lead
+Matias Berrio
+
+### Firmware Engineer
+Simon Duarte
+
+### Hardware Integration Engineer
+Juan Jose Loor
