@@ -58,7 +58,7 @@ El sistema debe permitir al usuario configurar desde el display físico parámet
 Prueba TC-14:
 Con el sistema encendido, navegar el menú del display y modificar el valor de los parametros objetivo. Verificar por serial monitor que el sistema adopta el nuevo valor y opera con el parámetro actualizado.
 ## Matriz
-![Foto matriz](docs/images)
+![Foto matriz](docs/images/mtriz_req.png)
 
 
 
