@@ -115,8 +115,7 @@ El sistema debe permitir la modificación de parámetros de operación sin neces
 Modificar parámetros del sistema en tiempo de ejecución y verificar su aplicación en el comportamiento del sistema.
 ## Plantilla requerimientos
 ![Foto plantilla](docs/images/plantilla_tc.png)
-## Matriz
-![Foto matriz](docs/images/mtriz_req.png)
+
 
 
 
