@@ -2,6 +2,7 @@
  * @file ble_handler.h
  * @brief Parser de comandos BLE y protocolo de comunicación.
  *
+ * Prototipos y documentación para el parser y manejo de comandos BLE.
  * Comandos soportados:
  *   START           → Inicia terapia
  *   STOP            → Detiene terapia
@@ -13,6 +14,7 @@
  *   GET_LOGS        → Dump del historial de eventos
  *   RESET_ALARMS    → Limpia el error y vuelve a IDLE
  *   TIME:<epoch>    → Sincroniza el timestamp con hora real
+ *
  *
  * Respuestas:
  *   OK:<CMD>        → Comando ejecutado exitosamente

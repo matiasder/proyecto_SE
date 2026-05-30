@@ -2,11 +2,11 @@
  * @file sensor.h
  * @brief Capa de validación sobre el driver BMP180.
  *
+ * Prototipos y documentación para validación y filtrado de lecturas del sensor BMP180.
  * Envuelve bmp180_get_pressure_hpa() con:
  *   - Verificación de rango físico
  *   - Detección de timeout (sin lectura válida por mucho tiempo)
  *   - Contador de fallos consecutivos
- *
  * No reemplaza BMP_180.h, solo agrega validación encima.
  * El offset de calibración se actualiza via sensor_set_offset().
  */
@@ -43,5 +43,17 @@ bool sensor_is_faulted(void);
 
 /** Resetea el contador de fallos (luego de resolver el error). */
 void sensor_reset_faults(void);
+
+/** Activa/desactiva el modo de prueba. */
+void sensor_set_test_mode(bool enabled);
+
+/** Retorna true si el modo prueba está activo. */
+bool sensor_get_test_mode(void);
+
+/**
+ * Inyecta una presión manual en mmHg.
+ * Solo tiene efecto si el modo prueba está activo.
+ */
+void sensor_set_test_pressure(float mmhg);
 
 #endif /* SENSOR_H */

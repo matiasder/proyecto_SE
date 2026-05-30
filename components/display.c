@@ -21,6 +21,8 @@
 #include "sensor.h"
 #include "app_config.h"
 #include "SSD1306_MINI.h"
+#include "control.h"     /* para control_reset_leak_timer() en draw_alarm() */
+
 
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
@@ -30,13 +32,14 @@
 #include <stdio.h>
 #include <string.h>
 
+
 static const char *TAG = "DISPLAY";
 
 // ─────────────────────────────────────────────────────────────
 // ESTADO INTERNO
 // ─────────────────────────────────────────────────────────────
 static screen_t s_screen      = SCREEN_MENU;
-static bool     s_redraw      = true;
+bool     s_redraw      = true;
 static uint32_t s_blink_tick  = 0;
 static bool     s_blink_state = false;
 
@@ -102,6 +105,8 @@ static void draw_alarm(void)
     if (!gpio_get_level(PIN_BTN_ENTER)) {
         if (sm_reset_error()) {
             sensor_reset_faults();
+            control_reset_leak_timer();
+            s_redraw = !s_redraw;
             display_set_screen(SCREEN_MENU);
             display_force_redraw();
             ESP_LOGI(TAG, "Alarma reseteada por boton fisico");

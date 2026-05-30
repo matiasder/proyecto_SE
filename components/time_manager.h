@@ -2,14 +2,12 @@
  * @file time_manager.h
  * @brief Timestamps con sincronización BLE.
  *
+ * Prototipos y documentación para gestión de timestamps y sincronización BLE.
  * El ESP32 no tiene RTC. Este módulo mantiene una base de tiempo:
- *
  *   - Si se sincronizó via BLE (comando TIME:<epoch>):
  *     timestamp = epoch_base + (ticks_actuales - sync_tick) / 1000
- *
  *   - Si no se sincronizó:
  *     timestamp = segundos de uptime desde el boot
- *
  * Los logs y el historial de eventos usan este timestamp.
  */
 

@@ -45,6 +45,7 @@
 #include "state_machine.h"
 #include "logger.h"
 #include "app_config.h"
+#include "sensor.h"
 
 #include "driver/ledc.h"
 #include "driver/gpio.h"
@@ -77,10 +78,24 @@ static uint32_t s_pump_start_tick  = 0;
 
 static void _pump_set_duty(float duty_pct)
 {
+    /*
+     * duty_pct aquí representa el duty real que queremos en la bomba:
+     *   100% = potencia máxima
+     *    80% = potencia mínima
+     *     0% = OFF
+     *
+     * El LEDC debe invertir esa señal para el MOSFET/driver, por eso
+     * el valor enviado al hardware se calcula como 100 - duty_pct.
+     */
     if (duty_pct < 0.0f)             duty_pct = 0.0f;
     if (duty_pct > PUMP_DUTY_MAX_PCT) duty_pct = PUMP_DUTY_MAX_PCT;
 
-    uint32_t steps = PCT_TO_DUTY(duty_pct);
+    float output_pct = 100.0f - duty_pct;
+    if (output_pct < 0.0f)   output_pct = 0.0f;
+    if (output_pct > 100.0f) output_pct = 100.0f;
+
+    uint32_t steps = PCT_TO_DUTY(output_pct);
+
     ledc_set_duty(LEDC_HIGH_SPEED_MODE, PUMP_LEDC_CHANNEL, steps);
     ledc_update_duty(LEDC_HIGH_SPEED_MODE, PUMP_LEDC_CHANNEL);
 
@@ -173,6 +188,7 @@ void control_init(void)
 
 void control_update(float pressure_mmhg, int target_mmhg)
 {
+
     /* ── 1. Sin terapia activa: bomba OFF ── */
     if (!sm_is_running()) {
         _pump_set_duty(0.0f);
@@ -262,6 +278,7 @@ float control_get_duty_pct(void)
 
 bool control_pump_is_on(void)
 {
+
     return (s_current_duty_pct >= PUMP_DUTY_MIN_PCT);
 }
 
@@ -269,4 +286,9 @@ void control_reset_leak_timer(void)
 {
     s_target_reached  = false;
     s_pump_start_tick = xTaskGetTickCount();
+}
+void control_set_duty_direct(float duty_pct)
+{
+    _pump_set_duty(duty_pct);
+    ESP_LOGI(TAG, "Duty directo: %.1f%%", duty_pct);
 }

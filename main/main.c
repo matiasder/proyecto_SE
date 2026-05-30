@@ -14,6 +14,9 @@
  *   ui_task       (prio 4) → Botones + OLED + calibración
  *   ble_task      (prio 5) → Envío periódico de datos por BLE
  *
+ * Archivo principal del sistema embebido.
+ */
+ *
  * Variables compartidas entre tareas:
  *   g_pressure_mmhg  → Escrita por sensor_task, leída por control/ui/ble
  *   g_target_mmhg    → Leída/escrita por ble_handler y ui_task
@@ -204,24 +207,16 @@ static void ui_task(void *arg)
     }
 }
 
-// ─────────────────────────────────────────────────────────────
-// TAREA: BLE STATUS
-// Envía datos periódicos al cliente BLE conectado
-// ─────────────────────────────────────────────────────────────
-static void ble_task(void *arg)
+static void uart_task(void *arg)
 {
-    char buf[80];
-
     for (;;) {
-        if (ble_nus_notify_enabled()) {
-            snprintf(buf, sizeof(buf),
-                     "DATA:%.0f,%d,%s,%s\n",
-                     (double)g_pressure_mmhg,
-                     ble_get_target(),
-                     control_pump_is_on() ? "1" : "0",
-                     sm_state_str(sm_get_state()));
-            ble_nus_send(buf);
-        }
+        printf("DATA | state=%-12s | press=%6.1f mmHg | target=%4d mmHg | pump=%s | err=%s\n",
+               sm_state_str(sm_get_state()),
+               (double)g_pressure_mmhg,
+               ble_get_target(),
+               control_pump_is_on() ? "ON " : "OFF",
+               sm_error_str(sm_get_error()));
+
         vTaskDelay(pdMS_TO_TICKS(PERIOD_BLE_MS));
     }
 }
@@ -260,7 +255,6 @@ void app_main(void)
     xTaskCreate(sensor_task,  "sensor",  TASK_SENSOR_STACK,  NULL, TASK_SENSOR_PRIO,  NULL);
     xTaskCreate(control_task, "control", TASK_CONTROL_STACK, NULL, TASK_CONTROL_PRIO, NULL);
     xTaskCreate(ui_task,      "ui",      TASK_UI_STACK,      NULL, TASK_UI_PRIO,      NULL);
-    xTaskCreate(ble_task,     "ble_tx",  TASK_BLE_STACK,     NULL, TASK_BLE_PRIO,     NULL);
-
+    xTaskCreate(uart_task,    "uart_tx",    TASK_UART_STACK,    NULL, TASK_UART_PRIO,    NULL);
     ESP_LOGI(TAG, "Tareas creadas. Firmware corriendo.");
 }

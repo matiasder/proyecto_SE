@@ -2,17 +2,18 @@
  * @file state_machine.h
  * @brief Máquina de estados global del sistema VAC Therapy.
  *
+ * Prototipos y documentación para la máquina de estados principal del sistema.
  * Estados:
  *   IDLE        → Sistema listo, sin terapia activa
  *   RUNNING     → Terapia en curso, bomba controlada
  *   CALIBRATION → Proceso de calibración del sensor
  *   ERROR       → Fallo detectado, bomba detenida
- *
  * Transiciones válidas:
  *   IDLE        → RUNNING     (START por BLE o botón)
  *   IDLE        → CALIBRATION (CALIB por BLE o botón)
  *   RUNNING     → IDLE        (STOP por BLE o botón)
  *   RUNNING     → ERROR       (fallo sensor o fuga detectada)
+ */
  *   CALIBRATION → IDLE        (calibración completada o cancelada)
  *   ERROR       → IDLE        (RESET_ALARMS por BLE)
  */

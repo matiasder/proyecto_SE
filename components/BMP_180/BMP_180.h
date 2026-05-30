@@ -1,17 +1,14 @@
+/**
+ * @file BMP_180.h
+ * @brief Driver para sensor de presión BMP180 (prototipos).
+ *
+ * Prototipos y documentación para inicialización, calibración y lectura del sensor BMP180.
+ */
+
 #pragma once
 
 #include <stdint.h>
 #include "driver/i2c.h"
-
-// ─────────────────────────────────────────────────────────────
-//  BMP180 – Librería de driver para ESP-IDF
-//
-//  Uso típico:
-//
-//    bmp180_init(I2C_NUM_0);        // leer calibración del sensor
-//    bmp180_calibrate(&offset_hpa); // promedia 64 muestras → offset
-//    float hpa = bmp180_get_pressure_hpa();
-// ─────────────────────────────────────────────────────────────
 
 // Dirección I2C del BMP180
 #define BMP180_ADDR     0x77
