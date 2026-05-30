@@ -1,3 +1,11 @@
+
+/**
+ * @file BMP_180.c
+ * @brief Driver para sensor de presión BMP180.
+ *
+ * Implementa la inicialización, lectura y calibración del sensor BMP180.
+ */
+
 #include "BMP_180.h"
 
 #include "freertos/FreeRTOS.h"

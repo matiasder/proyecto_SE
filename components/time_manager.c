@@ -1,6 +1,8 @@
 /**
  * @file time_manager.c
  * @brief Implementación del gestor de timestamps.
+ *
+ * Proporciona funciones para obtener y manipular marcas de tiempo en el sistema.
  */
 
 #include "time_manager.h"

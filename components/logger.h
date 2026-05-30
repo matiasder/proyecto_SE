@@ -2,13 +2,12 @@
  * @file logger.h
  * @brief Logger de eventos con buffer circular y timestamps.
  *
+ * Prototipos y documentación para el logger circular de eventos.
  * Mantiene un historial de los últimos LOGGER_BUFFER_SIZE eventos
  * en RAM. Cada entrada tiene timestamp (epoch Unix si sincronizado,
  * uptime en segundos si no) y un mensaje de texto.
- *
  * El buffer es circular: cuando se llena, sobrescribe la entrada
  * más antigua.
- *
  * Thread-safe: usa mutex interno.
  */
 
@@ -40,11 +39,11 @@ void logger_init(void);
 void logger_add(const char *msg);
 
 /**
- * Envía todos los logs por BLE como texto.
+ * Envía todos los logs por UART como texto.
  * Formato de cada línea: "LOG:<idx>,<ts>,<msg>\n"
  * Última línea: "LOG:END\n"
  */
-void logger_dump_ble(void);
+void logger_dump_uart(void);
 
 /**
  * Retorna el número de entradas actualmente almacenadas.

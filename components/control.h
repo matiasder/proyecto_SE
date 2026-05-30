@@ -2,6 +2,8 @@
  * @file control.h
  * @brief Control PWM de la bomba de vacío y buzzer de alarma.
  *
+ * Prototipos y documentación para el control proporcional de la bomba y el buzzer.
+ *
  * ── BOMBA (PWM proporcional) ──────────────────────────────────────────
  *
  *   error     = pressure_mmhg - target_mmhg
@@ -13,6 +15,7 @@
  *     duty = PUMP_DUTY_MIN_PCT
  *
  *   La bomba nunca se apaga durante terapia activa.
+ */
  *   El duty mínimo compensa el leak permanente del sistema neumático.
  *   El slew rate evita cambios bruscos de potencia entre ciclos.
  *
@@ -59,5 +62,7 @@ float control_get_duty_pct(void);
 
 /** Resetea el temporizador de detección de fugas al iniciar terapia. */
 void control_reset_leak_timer(void);
+
+void control_set_duty_direct(float duty_pct); /* Solo para pruebas: fuerza un duty específico sin pasar por control_update */
 
 #endif /* CONTROL_H */

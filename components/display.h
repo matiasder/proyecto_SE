@@ -2,18 +2,21 @@
  * @file display.h
  * @brief Interfaz de usuario en pantalla OLED SSD1306.
  *
+ * Prototipos y documentación para la UI en pantalla OLED SSD1306.
  * Pantallas disponibles:
  *   - Menú principal
  *   - Terapia en curso (presión actual y setpoint)
  *   - Calibración
  *   - Alarma (sobreescribe todo, parpadea)
- *
  * La pantalla de alarma tiene prioridad sobre cualquier otra.
  * Se llama display_update() periódicamente desde la tarea UI.
  */
 
 #ifndef DISPLAY_H
 #define DISPLAY_H
+#include <stdbool.h>
+
+extern bool s_redraw;  /* Flag global para indicar que la pantalla necesita redibujarse */
 
 #include <stdbool.h>
 

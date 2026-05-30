@@ -1,12 +1,15 @@
 /**
  * @file state_machine.c
  * @brief Implementación de la máquina de estados global.
+ *
+ * Gestiona los estados principales del sistema y las transiciones entre ellos.
  */
 
 #include "state_machine.h"
 #include "logger.h"
 #include "control.h"     /* para buzzer_off() en sm_reset_error() */
 #include "esp_log.h"
+#include <stdio.h>
 
 static const char *TAG = "SM";
 

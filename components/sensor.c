@@ -7,6 +7,8 @@
  *   - Cada lectura válida resetea s_fault_count.
  *   - Cuando s_fault_count >= SENSOR_FAULT_THRESHOLD → error declarado.
  *   - Esto evita falsas alarmas por glitches I2C puntuales.
+ *
+ * Este archivo valida y filtra las lecturas del sensor BMP180.
  */
 
 #include "sensor.h"
@@ -32,6 +34,9 @@ static float    s_offset_hpa   = 0.0f;
 static uint8_t  s_fault_count  = 0;
 static bool     s_faulted      = false;
 static uint32_t s_last_ok_tick = 0;    /* Tick de la última lectura válida */
+
+static bool s_test_mode = false; /* Si true, sensor_read() devuelve valores simulados para pruebas */
+static float s_test_pressure_mmhg = 0.0f; /* Presión simulada en modo test */
 
 // ─────────────────────────────────────────────────────────────
 // HELPERS PRIVADOS
@@ -72,6 +77,14 @@ void sensor_init(i2c_port_t port, float initial_offset_hpa)
 
 bool sensor_read(float *out_mmhg)
 {
+     if (!out_mmhg) return false;
+
+    // ── Modo prueba: retorna presión inyectada por BLE ──
+    if (s_test_mode) {
+        *out_mmhg = s_test_pressure_mmhg;
+        return true;
+    }
+    
     if (!out_mmhg) return false;
 
     /* ── Verificar timeout antes de intentar leer ── */
@@ -132,4 +145,21 @@ void sensor_reset_faults(void)
     s_faulted      = false;
     s_last_ok_tick = 0;
     ESP_LOGI(TAG, "Contador de fallos reseteado");
+}
+
+void sensor_set_test_mode(bool enabled)
+{
+    s_test_mode = enabled;
+    ESP_LOGI(TAG, "Modo prueba: %s", enabled ? "ON" : "OFF");
+}
+
+bool sensor_get_test_mode(void)
+{
+    return s_test_mode;
+}
+
+void sensor_set_test_pressure(float mmhg)
+{
+    s_test_pressure_mmhg = mmhg;
+    ESP_LOGI(TAG, "Presion de prueba: %.1f mmHg", mmhg);
 }
