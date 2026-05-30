@@ -3,7 +3,7 @@
 
 Este proyecto propone el diseño de un sistema embebido para controlar una bomba de presión negativa utilizada en el tratamiento de heridas. La terapia de presión negativa (también conocida como VAC Therapy) consiste en aplicar un vacío controlado sobre una herida para favorecer la cicatrización, eliminar fluidos y mejorar la perfusión del tejido.
 El sistema está basado en un microcontrolador que recibe información de un sensor de presión, el cual permite monitorear en tiempo real el nivel de vacío dentro del sistema. A partir de estas mediciones, el microcontrolador controla los actuadores, una bomba de vacío encargada de generar la presión negativa y una válvula solenoide que permite liberar presión cuando sea necesario.
-El sistema cuenta con una pantalla para visualizar la presión en tiempo real, botones para que el usuario establezca la presión objetivo, y una interfaz gráfica  para configuración avanzada, visualización de estado y registro de eventos. El microcontrolador ejecuta un algoritmo de control que activa o desactiva la bomba para mantener la presión dentro de un rango seguro y terapéutico.
+El sistema cuenta con una pantalla para visualizar la presión en tiempo real, botones para que el usuario establezca la presión objetivo, y una interfaz gráfica  para configuración avanzada, visualización de estado y registro de eventos. El microcontrolador ejecuta un algoritmo de control que module la bomba para mantener la presión dentro de un rango seguro y terapéutico.
 
 ## Objetivo General:
 
